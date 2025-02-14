@@ -9,6 +9,8 @@ import { SiTypescript } from "react-icons/si";
 import { SiTailwindcss } from "react-icons/si";
 import { SiDjango } from "react-icons/si";
 import { motion } from 'framer-motion';
+import Notification from './Notification';
+import MockFileManager from './MockFileManager';
 
 interface DesktopIcon {
   title: string;
@@ -35,7 +37,7 @@ const desktopIcons: DesktopIcon[] = [
   {
     title: "zaneCoderinternShip",
     icon: <div className="bg-gradient-to-br from-yellow-400 via-yellow-500 to-yellow-600 rounded-2xl p-2 shadow-lg">
-      <FaFolder size={32} className="text-white/90" />
+      <FaBuilding size={32} className="text-white/90" />
     </div>,
     position: { top: 128, left: 32 }
   },
@@ -55,6 +57,8 @@ export default function DesktopUI() {
   const [iconPositions, setIconPositions] = useState<{ [key: string]: Position }>({});
   const [isDragging, setIsDragging] = useState(false);
   const [windowDimensions, setWindowDimensions] = useState({ width: 0, height: 0 });
+  const [showNotification, setShowNotification] = useState(false);
+  const [showFileManager, setShowFileManager] = useState(false);
 
   useEffect(() => {
     const updateTime = () => {
@@ -123,6 +127,19 @@ export default function DesktopUI() {
         }
       };
     });
+  };
+
+  const handleDownloadClick = () => {
+    setShowNotification(true);
+  };
+
+  const handleConfirmDownload = () => {
+    setShowNotification(false);
+    window.open('/resume.pdf', '_blank'); 
+  };
+
+  const handleCancelDownload = () => {
+    setShowNotification(false);
   };
 
   const sections = {
@@ -556,7 +573,7 @@ export default function DesktopUI() {
           </div>
         </div>
       )
-    },
+    }
   };
 
   const MenuBar = () => (
@@ -606,6 +623,14 @@ export default function DesktopUI() {
     setExpandedProject(expandedProject === projectId ? null : projectId);
   };
 
+  const handleIconClick = (title: string) => {
+    if (title === "zaneCoderinternShip") {
+      setShowFileManager(true);
+    } else if (title === "downloadMyResume.bat") {
+      handleDownloadClick();
+    }
+  };
+
   return (
     <div className="relative w-screen h-screen overflow-hidden bg-gray-900">
       <Image
@@ -652,7 +677,7 @@ export default function DesktopUI() {
           className="flex flex-col items-center cursor-move touch-none select-none absolute"
           onClick={(e) => {
             if (!isDragging) {
-              setSelectedSection('projects');
+              handleIconClick(item.title);
             }
           }}
         >
@@ -737,6 +762,16 @@ export default function DesktopUI() {
           </div>
         </div>
       )}
+
+      {/* Show notification if needed */}
+      {showNotification && (
+        <Notification
+          onConfirm={handleConfirmDownload}
+          onCancel={handleCancelDownload}
+        />
+      )}
+
+      {showFileManager && <MockFileManager onClose={() => setShowFileManager(false)} />}
     </div>
   );
 }
