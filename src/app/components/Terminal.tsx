@@ -662,7 +662,8 @@ const sections: Record<SectionKey, Section> = {
                 </div>
                 <div>
                   <h3 className="font-medium text-red-400">Email</h3>
-                  <a href="mailto:dalubatanhans@gmail.com" className="text-sm text-gray-400 hover:text-gray-300">
+                  <a href="mailto:dalubatanhans@gmail.com" 
+                     className="text-sm text-gray-400 hover:text-gray-300 transition-colors">
                     dalubatanhans@gmail.com
                   </a>
                 </div>
@@ -676,9 +677,9 @@ const sections: Record<SectionKey, Section> = {
                 </div>
                 <div>
                   <h3 className="font-medium text-blue-400">LinkedIn</h3>
-                  <a href="https://linkedin.com/in/hans-dalubatan" target="_blank" rel="noopener noreferrer" 
-                     className="text-sm text-gray-400 hover:text-gray-300">
-                    /in/hans-dalubatan
+                  <a href="https://www.linkedin.com/in/hansarcher" target="_blank" rel="noopener noreferrer" 
+                     className="text-sm text-gray-400 hover:text-gray-300 transition-colors">
+                    /in/hansarcher
                   </a>
                 </div>
               </div>
@@ -691,9 +692,9 @@ const sections: Record<SectionKey, Section> = {
                 </div>
                 <div>
                   <h3 className="font-medium text-gray-400">GitHub</h3>
-                  <a href="https://github.com/HanzArcher" target="_blank" rel="noopener noreferrer" 
-                     className="text-sm text-gray-400 hover:text-gray-300">
-                    /HanzArcher
+                  <a href="https://github.com/hanz-archer" target="_blank" rel="noopener noreferrer" 
+                     className="text-sm text-gray-400 hover:text-gray-300 transition-colors">
+                    /hanz-archer
                   </a>
                 </div>
               </div>
@@ -707,7 +708,7 @@ const sections: Record<SectionKey, Section> = {
                 <div>
                   <h3 className="font-medium text-blue-500">Facebook</h3>
                   <a href="https://facebook.com/hans.dalubatan" target="_blank" rel="noopener noreferrer" 
-                     className="text-sm text-gray-400 hover:text-gray-300">
+                     className="text-sm text-gray-400 hover:text-gray-300 transition-colors">
                     /hans.dalubatan
                   </a>
                 </div>
@@ -715,32 +716,20 @@ const sections: Record<SectionKey, Section> = {
             </div>
           </div>
 
-          <form className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-400 mb-1">Name</label>
-              <input 
-                type="text"
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500/50"
-              />
+          <div className="bg-gradient-to-br from-purple-500/5 to-purple-600/5 p-6 rounded-xl border border-purple-500/20 flex flex-col items-center justify-center text-center">
+            <div className="p-3 bg-purple-500/20 rounded-full mb-4">
+              <svg className="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+              </svg>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-400 mb-1">Email</label>
-              <input 
-                type="email"
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500/50"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-400 mb-1">Message</label>
-              <textarea 
-                rows={4}
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500/50"
-              ></textarea>
-            </div>
-            <button className="w-full bg-blue-500/80 hover:bg-blue-500/90 text-white py-2 rounded-lg transition-colors">
-              Send Message
-            </button>
-          </form>
+            <h3 className="text-xl font-medium text-purple-400 mb-2">Contact Form Coming Soon!</h3>
+            <p className="text-gray-400 mb-4">The contact form is currently under development.</p>
+            <a href="mailto:dalubatanhans@gmail.com" 
+               className="bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 py-2 px-6 rounded-lg transition-colors inline-flex items-center gap-2">
+              <FaEnvelope className="w-4 h-4" />
+              Send me an email instead
+            </a>
+          </div>
         </div>
       </div>
     )
