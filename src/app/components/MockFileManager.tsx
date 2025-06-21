@@ -22,6 +22,7 @@ interface FeaturedProject {
   description: string;
   technologies: string[];
   details: string[];
+  githubUrl?: string;
 }
 
 const projects: Project[] = [
@@ -121,7 +122,8 @@ const featuredProjects: FeaturedProject[] = [
       "Implemented user authentication and role management",
       "Created dynamic reporting system",
       "Integrated with local government workflows"
-    ]
+    ],
+    githubUrl: "https://github.com/hanz-archer/KwentasKlaras"
   },
   {
     name: "AWS Cognito to Firebase Migration",
@@ -132,7 +134,8 @@ const featuredProjects: FeaturedProject[] = [
       "Preserved user credentials and profiles",
       "Handled error recovery and logging",
       "Maintained data integrity during transfer"
-    ]
+    ],
+    githubUrl: "https://github.com/hanz-archer/aws-cognito-to-firebase-migrate"
   },
   {
     name: "E-Learning Platform",
@@ -143,7 +146,8 @@ const featuredProjects: FeaturedProject[] = [
       "Interactive learning modules",
       "Progress tracking system",
       "Responsive design implementation"
-    ]
+    ],
+    githubUrl: "https://github.com/hanz-archer/E-Learning"
   },
   {
     name: "GitHub PR Clone",
@@ -154,7 +158,8 @@ const featuredProjects: FeaturedProject[] = [
       "Integrated with GitHub API",
       "Implemented PR review system",
       "Real-time updates handling"
-    ]
+    ],
+    githubUrl: "https://github.com/hanz-archer/Github-API"
   },
   {
     name: "Sanguinian Kabataan System",
@@ -165,7 +170,8 @@ const featuredProjects: FeaturedProject[] = [
       "Event scheduling and tracking",
       "Automated reporting system",
       "User role management"
-    ]
+    ],
+    githubUrl: "https://github.com/hanz-archer/Sangunnian-Kabataan-System"
   },
   {
     name: "VS Code Live Collab",
@@ -176,7 +182,8 @@ const featuredProjects: FeaturedProject[] = [
       "Cursor position tracking",
       "Conflict resolution system",
       "Extension API integration"
-    ]
+    ],
+    githubUrl: "https://github.com/hanz-archer/VSCode-Live-Collab"
   },
   {
     name: "VS Code Workflow Generator",
@@ -187,7 +194,8 @@ const featuredProjects: FeaturedProject[] = [
       "YAML validation",
       "GitHub Actions integration",
       "Interactive command palette"
-    ]
+    ],
+    githubUrl: "https://github.com/hanz-archer/VSCode-Workflow-Generator"
   },
   {
     name: "VS Code Django Setup",
@@ -198,7 +206,8 @@ const featuredProjects: FeaturedProject[] = [
       "Development environment setup",
       "Django configuration automation",
       "Debugging integration"
-    ]
+    ],
+    githubUrl: "https://github.com/hanz-archer/VScode-Django-Setup"
   },
   {
     name: "CSV to Charts",
@@ -209,7 +218,8 @@ const featuredProjects: FeaturedProject[] = [
       "CSV parsing and validation",
       "Interactive data filtering",
       "Export functionality"
-    ]
+    ],
+    githubUrl: "https://github.com/hanz-archer/CSV-to-Charts"
   },
   {
     name: "LVL Shopping",
@@ -220,7 +230,8 @@ const featuredProjects: FeaturedProject[] = [
       "Shopping cart functionality",
       "Payment gateway integration",
       "Order tracking system"
-    ]
+    ],
+    githubUrl: "https://github.com/hanz-archer/LVL-Shoppping-Ecommerce"
   }
 ];
 
@@ -353,17 +364,30 @@ const FeaturedProjectCard: React.FC<{ project: FeaturedProject; isSelected: bool
                 <p className="text-sm text-gray-400">{project.description}</p>
               </div>
             </div>
-            <a 
-              href="#" 
-              className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-colors group relative"
-              onClick={(e) => e.stopPropagation()}
-              title="GitHub Repository (Coming Soon)"
-            >
-              <FaGithub className="w-5 h-5 text-white/70 group-hover:text-white/90" />
-              <div className="absolute -top-8 right-0 scale-0 group-hover:scale-100 transition-all duration-200 bg-gray-800/90 text-xs px-2 py-1 rounded-lg whitespace-nowrap backdrop-blur-sm text-white/90 border border-white/10">
-                View on GitHub
+            {project.githubUrl ? (
+              <a 
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-colors group relative"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <FaGithub className="w-5 h-5 text-white/70 group-hover:text-white/90" />
+                <div className="absolute -top-8 right-0 scale-0 group-hover:scale-100 transition-all duration-200 bg-gray-800/90 text-xs px-2 py-1 rounded-lg whitespace-nowrap backdrop-blur-sm text-white/90 border border-white/10">
+                  View on GitHub
+                </div>
+              </a>
+            ) : (
+              <div 
+                className="p-2 bg-white/5 rounded-lg cursor-not-allowed group relative opacity-50"
+                title="Repository is private or coming soon"
+              >
+                <FaGithub className="w-5 h-5 text-white/70" />
+                <div className="absolute -top-8 right-0 scale-0 group-hover:scale-100 transition-all duration-200 bg-gray-800/90 text-xs px-2 py-1 rounded-lg whitespace-nowrap backdrop-blur-sm text-white/90 border border-white/10">
+                  Repository Coming Soon
+                </div>
               </div>
-            </a>
+            )}
           </div>
           
           <div className="space-y-4">
