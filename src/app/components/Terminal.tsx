@@ -1,13 +1,9 @@
 "use client";
-import { useState, useEffect, useRef } from 'react';
-import { FaUser, FaProjectDiagram, FaEnvelope, FaGraduationCap, FaTools, FaBuilding, FaFolder, FaGithub, FaChevronDown, FaLaptopCode, FaLinkedin, FaFacebook } from "react-icons/fa";
+import React, { useState, useEffect, useRef } from 'react';
+import { FaUser, FaEnvelope, FaGraduationCap, FaTools, FaBuilding, FaFolder, FaGithub, FaLaptopCode, FaLinkedin, FaFacebook } from "react-icons/fa";
 import Image from "next/image";
-import React from "react";
 import { FaReact } from "react-icons/fa";
-import { SiNextdotjs } from "react-icons/si";
-import { SiTypescript } from "react-icons/si";
-import { SiTailwindcss } from "react-icons/si";
-import { SiDjango } from "react-icons/si";
+import { SiNextdotjs, SiTypescript, SiTailwindcss, SiDjango, SiVuedotjs, SiNuxtdotjs, SiGooglecloud } from "react-icons/si";
 import { motion } from 'framer-motion';
 import Notification from './Notification';
 import MockFileManager from './MockFileManager';
@@ -35,7 +31,7 @@ const desktopIcons: DesktopIcon[] = [
     position: { top: 32, left: 32 }
   },
   {
-    title: "zaneCoderinternShip",
+    title: "zaneCoderInternship",
     icon: <div className="bg-gradient-to-br from-yellow-400 via-yellow-500 to-yellow-600 rounded-2xl p-2 shadow-lg">
       <FaBuilding size={32} className="text-white/90" />
     </div>,
@@ -50,8 +46,709 @@ const desktopIcons: DesktopIcon[] = [
   }
 ];
 
+const fileManagerContent = {
+  "Major Platforms": [
+    {
+      name: "E-Learning Platform",
+      type: "folder",
+      items: [
+        { name: "frontend", type: "folder" },
+        { name: "backend", type: "folder" },
+        { name: "README.md", type: "file" }
+      ]
+    },
+    {
+      name: "Open Morty",
+      type: "folder",
+      items: [
+        { name: "api", type: "folder" },
+        { name: "client", type: "folder" },
+        { name: "docs", type: "folder" }
+      ]
+    }
+  ],
+  "Client Portals": [
+    {
+      name: "MortDash",
+      type: "folder",
+      items: [
+        { name: "ameritrust-capital", type: "folder" },
+        { name: "whitesands-capital", type: "folder" },
+        { name: "shared-components", type: "folder" }
+      ]
+    },
+    {
+      name: "TPO Portal",
+      type: "folder",
+      items: [
+        { name: "frontend", type: "folder" },
+        { name: "backend", type: "folder" },
+        { name: "deployment", type: "folder" }
+      ]
+    }
+  ],
+  "Specialized Tools": [
+    {
+      name: "MortZilla",
+      type: "folder",
+      items: [
+        { name: "core", type: "folder" },
+        { name: "plugins", type: "folder" }
+      ]
+    },
+    {
+      name: "EdTracts",
+      type: "folder",
+      items: [
+        { name: "content-manager", type: "folder" },
+        { name: "delivery-system", type: "folder" }
+      ]
+    },
+    {
+      name: "Allure IMA",
+      type: "folder",
+      items: [
+        { name: "analysis-engine", type: "folder" },
+        { name: "dashboard", type: "folder" }
+      ]
+    },
+    {
+      name: "EdStack",
+      type: "folder",
+      items: [
+        { name: "platform", type: "folder" },
+        { name: "integrations", type: "folder" }
+      ]
+    }
+  ],
+  "Deployments": [
+    {
+      name: "Cloud Run",
+      type: "folder",
+      items: [
+        { name: "configurations", type: "folder" },
+        { name: "cloudbuild.yaml", type: "file" }
+      ]
+    },
+    {
+      name: "Cloud SQL",
+      type: "folder",
+      items: [
+        { name: "migrations", type: "folder" },
+        { name: "backups", type: "folder" }
+      ]
+    },
+    {
+      name: "CI-CD",
+      type: "folder",
+      items: [
+        { name: "workflows", type: "folder" },
+        { name: "scripts", type: "folder" }
+      ]
+    }
+  ]
+};
+
+type SectionKey = 'about' | 'experience' | 'technologies' | 'education' | 'contact';
+
+interface Section {
+  icon: React.ReactElement;
+  title: string;
+  content: React.ReactElement;
+}
+
+const sections: Record<SectionKey, Section> = {
+  about: { 
+    icon: <div className="bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-2xl p-2 shadow-lg">
+      <FaUser size={32} className="text-white/90" />
+    </div>,
+    title: "About Me",
+    content: (
+      <div className="flex flex-col gap-6 p-4">
+        <div className="flex flex-col md:flex-row gap-8">
+          <div className="w-48 h-48 md:w-64 md:h-64 mx-auto md:mx-0 rounded-xl overflow-hidden shadow-lg">
+            <Image
+              src="/me.jpg"
+              width={256}
+              height={256}
+              alt="Profile"
+              className="object-cover"
+            />
+          </div>
+          <div className="space-y-4 flex-1 text-center md:text-left">
+            <div>
+              <h2 className="text-2xl font-semibold">Hans Dalubatan</h2>
+              <p className="text-gray-300">DevOps & Web Developer Intern at zaneCoder</p>
+            </div>
+            <p className="text-gray-200 leading-relaxed">
+              Junior Software Developer with solid back-end and front-end skills. Proficient in Git/GitHub, CI/CD using YAML, and deploying applications through GCP Cloud Run and Cloud SQL. Experienced in mapping custom domains and dedicated to creating effective, user-centric solutions while learning DevOps continuously.
+            </p>
+          </div>
+        </div>
+
+        <div className="space-y-6">
+          <h3 className="font-medium text-gray-300 text-lg border-b border-white/10 pb-2">Awards & Achievements</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-4">
+              <div className="bg-gradient-to-br from-yellow-500/10 to-yellow-600/10 p-4 rounded-xl border border-yellow-500/20">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="p-2 bg-yellow-500/20 rounded-lg">
+                    <FaGraduationCap className="text-yellow-400 w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium text-yellow-400">Academic Excellence</h3>
+                    <p className="text-sm text-gray-400">2021 - Present</p>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-start gap-2 text-sm text-gray-300">
+                    <div className="w-1 h-1 rounded-full bg-yellow-500 mt-2" />
+                    <span>Dean's Lister - First Year</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm text-gray-300">
+                    <div className="w-1 h-1 rounded-full bg-yellow-500 mt-2" />
+                    <span>Programmer of the Year</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/10 p-4 rounded-xl border border-blue-500/20">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="p-2 bg-blue-500/20 rounded-lg">
+                    <FaLaptopCode className="text-blue-400 w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium text-blue-400">Technical Achievements</h3>
+                    <p className="text-sm text-gray-400">Notable Projects</p>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-start gap-2 text-sm text-gray-300">
+                    <div className="w-1 h-1 rounded-full bg-blue-500 mt-2" />
+                    <span>Best in Capstone Research Category</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm text-gray-300">
+                    <div className="w-1 h-1 rounded-full bg-blue-500 mt-2" />
+                    <span>Excellence Award for Transparent Governance</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm text-gray-300">
+                    <div className="w-1 h-1 rounded-full bg-blue-500 mt-2" />
+                    <span>Lead Developer - KwentasKlaras PMIS</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  },
+  experience: { 
+    icon: <div className="bg-gradient-to-br from-orange-400 via-orange-500 to-orange-600 rounded-2xl p-2 shadow-lg">
+      <FaBuilding size={32} className="text-white/90" />
+    </div>,
+    title: "Experience",
+    content: (
+      <div className="space-y-6">
+        <h2 className="text-2xl font-semibold text-white/90">Professional Experience</h2>
+        <div className="grid gap-4">
+          {/* Full-time Position */}
+          <div className="bg-gradient-to-br from-orange-500/10 to-orange-600/10 p-4 rounded-xl border border-orange-500/20">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="p-2 bg-orange-500/20 rounded-lg">
+                <FaBuilding className="text-orange-400 w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-medium text-orange-400">Junior Software Engineer</h3>
+                <p className="text-sm text-gray-400">zaneCoder • March 2025 - Present</p>
+              </div>
+            </div>
+            <div className="space-y-4">
+              <p className="text-sm text-gray-300 leading-relaxed">
+                Full-time software engineer specializing in DevOps and infrastructure, focusing on CI/CD pipelines, cloud infrastructure management, and deployment automation on Google Cloud Platform. Responsible for implementing and maintaining scalable cloud solutions using Cloud Run, Cloud SQL, and automated workflows.
+              </p>
+
+              <div className="space-y-3">
+                <h4 className="text-sm font-medium text-orange-400">Key Infrastructure & DevOps Projects:</h4>
+                
+                <div className="space-y-4">
+                  <div className="bg-gradient-to-br from-orange-500/5 to-orange-600/5 p-3 rounded-lg border border-orange-500/10">
+                    <h5 className="text-sm font-medium text-orange-300 mb-2">CI/CD & Infrastructure</h5>
+                    <div className="grid gap-2">
+                      <div>
+                        <span className="text-sm text-gray-300">Cloud Infrastructure</span>
+                        <ul className="text-xs text-gray-400 list-disc list-inside mt-1">
+                          <li>Implemented CI/CD pipelines for multiple applications</li>
+                          <li>Managed Cloud Run deployments and configurations</li>
+                          <li>Handled Cloud SQL database infrastructure</li>
+                          <li>Automated deployment workflows using YAML</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gradient-to-br from-blue-500/5 to-blue-600/5 p-3 rounded-lg border border-blue-500/10">
+                    <h5 className="text-sm font-medium text-blue-300 mb-2">Application Infrastructure</h5>
+                    <div className="grid gap-2">
+                      <div>
+                        <span className="text-sm text-gray-300">DevOps Support for Key Applications</span>
+                        <ul className="text-xs text-gray-400 list-disc list-inside mt-1">
+                          <li>MortZilla - Deployment automation and monitoring</li>
+                          <li>OpenMorty - Infrastructure setup and maintenance</li>
+                          <li>TPO Portal - CI/CD pipeline implementation</li>
+                          <li>MortDash - Cloud infrastructure management</li>
+                          <li>Allure CRM - Deployment workflow optimization</li>
+                          <li>EdStack CRM - Cloud resource configuration</li>
+                          <li>EdStack College Contracts - Infrastructure automation</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gradient-to-br from-green-500/5 to-green-600/5 p-3 rounded-lg border border-green-500/10">
+                    <h5 className="text-sm font-medium text-green-300 mb-2">Infrastructure Achievements</h5>
+                    <div className="grid gap-2">
+                      <div>
+                        <ul className="text-xs text-gray-400 list-disc list-inside mt-1">
+                          <li>Reduced deployment time by 40% through pipeline optimization</li>
+                          <li>Implemented automated testing in CI/CD workflows</li>
+                          <li>Established monitoring and alerting systems</li>
+                          <li>Standardized deployment processes across projects</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                <span className="px-2 py-1 text-xs rounded-full bg-orange-500/20 text-orange-300">Cloud Run</span>
+                <span className="px-2 py-1 text-xs rounded-full bg-blue-500/20 text-blue-300">Cloud SQL</span>
+                <span className="px-2 py-1 text-xs rounded-full bg-green-500/20 text-green-300">CI/CD</span>
+                <span className="px-2 py-1 text-xs rounded-full bg-purple-500/20 text-purple-300">Docker</span>
+                <span className="px-2 py-1 text-xs rounded-full bg-yellow-500/20 text-yellow-300">YAML</span>
+                <span className="px-2 py-1 text-xs rounded-full bg-red-500/20 text-red-300">Terraform</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Internship */}
+          <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/10 p-4 rounded-xl border border-blue-500/20">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="p-2 bg-blue-500/20 rounded-lg">
+                <FaLaptopCode className="text-blue-400 w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-medium text-blue-400">DevOps Engineering Intern</h3>
+                <p className="text-sm text-gray-400">zaneCoder • January 2025 - March 2025</p>
+              </div>
+            </div>
+            <div className="space-y-4">
+              <p className="text-sm text-gray-300 leading-relaxed">
+                Assisted in DevOps and infrastructure tasks, learning and implementing cloud technologies and CI/CD practices. Gained hands-on experience with Google Cloud Platform services and deployment automation.
+              </p>
+
+              <div className="space-y-3">
+                <h4 className="text-sm font-medium text-blue-400">Internship Contributions:</h4>
+                
+                <div className="space-y-4">
+                  <div className="bg-gradient-to-br from-blue-500/5 to-blue-600/5 p-3 rounded-lg border border-blue-500/10">
+                    <h5 className="text-sm font-medium text-blue-300 mb-2">DevOps & Infrastructure Tasks</h5>
+                    <div className="grid gap-2">
+                      <div>
+                        <span className="text-sm text-gray-300">Cloud Infrastructure</span>
+                        <ul className="text-xs text-gray-400 list-disc list-inside mt-1">
+                          <li>Assisted in maintaining CI/CD pipelines</li>
+                          <li>Helped configure Cloud Run services</li>
+                          <li>Supported database infrastructure management</li>
+                          <li>Learned deployment automation practices</li>
+                        </ul>
+                      </div>
+                      <div>
+                        <span className="text-sm text-gray-300">Project Support</span>
+                        <ul className="text-xs text-gray-400 list-disc list-inside mt-1">
+                          <li>Assisted with MortZilla deployment processes</li>
+                          <li>Helped maintain OpenMorty infrastructure</li>
+                          <li>Supported TPO Portal CI/CD pipeline</li>
+                          <li>Contributed to monitoring setup for various applications</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                <span className="px-2 py-1 text-xs rounded-full bg-orange-500/20 text-orange-300">Cloud Run</span>
+                <span className="px-2 py-1 text-xs rounded-full bg-blue-500/20 text-blue-300">Cloud SQL</span>
+                <span className="px-2 py-1 text-xs rounded-full bg-green-500/20 text-green-300">CI/CD</span>
+                <span className="px-2 py-1 text-xs rounded-full bg-yellow-500/20 text-yellow-300">YAML</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Previous Experience */}
+          <div className="bg-gradient-to-br from-yellow-500/10 to-yellow-600/10 p-4 rounded-xl border border-yellow-500/20">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="p-2 bg-yellow-500/20 rounded-lg">
+                <FaLaptopCode className="text-yellow-400 w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-medium text-yellow-400">2024 POPCEN-CBMS Enumerator</h3>
+                <p className="text-sm text-gray-400">Philippine Statistics Authority • 2024</p>
+              </div>
+            </div>
+            <div className="space-y-3">
+              <p className="text-sm text-gray-300 leading-relaxed">
+                Developing custom web solutions and applications for various clients, focusing on performance and user experience.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <span className="px-2 py-1 text-xs rounded-full bg-blue-500/20 text-blue-300">React</span>
+                <span className="px-2 py-1 text-xs rounded-full bg-cyan-500/20 text-cyan-300">Tailwind</span>
+                <span className="px-2 py-1 text-xs rounded-full bg-orange-500/20 text-orange-300">Firebase</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-gradient-to-br from-yellow-500/10 to-yellow-600/10 p-4 rounded-xl border border-yellow-500/20">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="p-2 bg-yellow-500/20 rounded-lg">
+                <FaLaptopCode className="text-yellow-400 w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-medium text-yellow-400">Computer System Servicing Intern</h3>
+                <p className="text-sm text-gray-400">FJR IT Solutions • 2019</p>
+              </div>
+            </div>
+            <div className="space-y-3">
+              <p className="text-sm text-gray-300 leading-relaxed">
+                Developing custom web solutions and applications for various clients, focusing on performance and user experience.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <span className="px-2 py-1 text-xs rounded-full bg-blue-500/20 text-blue-300">React</span>
+                <span className="px-2 py-1 text-xs rounded-full bg-cyan-500/20 text-cyan-300">Tailwind</span>
+                <span className="px-2 py-1 text-xs rounded-full bg-orange-500/20 text-orange-300">Firebase</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  },
+  technologies: { 
+    icon: <div className="bg-gradient-to-br from-indigo-400 via-indigo-500 to-indigo-600 rounded-2xl p-2 shadow-lg">
+      <FaTools size={32} className="text-white/90" />
+    </div>,
+    title: "Technologies",
+    content: (
+      <div className="space-y-6">
+        <h2 className="text-2xl font-semibold text-white/90">Tech Stack & Projects</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-4">
+            <h3 className="font-medium text-gray-300 text-lg border-b border-white/10 pb-2">Frontend</h3>
+            <div className="grid gap-4">
+              <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/10 p-4 rounded-xl border border-blue-500/20">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="flex gap-2">
+                    <FaReact className="text-blue-400 w-6 h-6" />
+                    <SiNextdotjs className="text-white w-6 h-6" />
+                  </div>
+                  <h4 className="font-medium text-blue-400">React & Next.js</h4>
+                </div>
+                <p className="text-sm text-gray-400 mb-2">Used in:</p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-2 py-1 text-xs rounded-full bg-blue-500/20 text-blue-300">Resume Builder</span>
+                  <span className="px-2 py-1 text-xs rounded-full bg-blue-500/20 text-blue-300">E-Learning Platform</span>
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-br from-green-500/10 to-green-600/10 p-4 rounded-xl border border-green-500/20">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="flex gap-2">
+                    <SiVuedotjs className="text-green-400 w-6 h-6" />
+                    <SiNuxtdotjs className="text-green-500 w-6 h-6" />
+                  </div>
+                  <h4 className="font-medium text-green-400">Vue.js & Nuxt.js</h4>
+                </div>
+                <p className="text-sm text-gray-400 mb-2">Used in:</p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-2 py-1 text-xs rounded-full bg-green-500/20 text-green-300">Admin Dashboard</span>
+                  <span className="px-2 py-1 text-xs rounded-full bg-green-500/20 text-green-300">Client Portal</span>
+                </div>
+              </div>
+              
+              <div className="bg-gradient-to-br from-cyan-500/10 to-cyan-600/10 p-4 rounded-xl border border-cyan-500/20">
+                <div className="flex items-center gap-3 mb-2">
+                  <SiTailwindcss className="text-cyan-400 w-6 h-6" />
+                  <h4 className="font-medium text-cyan-400">Tailwind CSS</h4>
+                </div>
+                <p className="text-sm text-gray-400 mb-2">Used in:</p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-2 py-1 text-xs rounded-full bg-cyan-500/20 text-cyan-300">Portfolio</span>
+                  <span className="px-2 py-1 text-xs rounded-full bg-cyan-500/20 text-cyan-300">Dashboard UI</span>
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/10 p-4 rounded-xl border border-blue-500/20">
+                <div className="flex items-center gap-3 mb-2">
+                  <SiTypescript className="text-blue-500 w-6 h-6" />
+                  <h4 className="font-medium text-blue-400">TypeScript</h4>
+                </div>
+                <p className="text-sm text-gray-400 mb-2">Used in:</p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-2 py-1 text-xs rounded-full bg-blue-500/20 text-blue-300">All Frontend Projects</span>
+                  <span className="px-2 py-1 text-xs rounded-full bg-blue-500/20 text-blue-300">Type Safety</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="space-y-4">
+            <h3 className="font-medium text-gray-300 text-lg border-b border-white/10 pb-2">Backend & DevOps</h3>
+            <div className="grid gap-4">
+              <div className="bg-gradient-to-br from-green-500/10 to-green-600/10 p-4 rounded-xl border border-green-500/20">
+                <div className="flex items-center gap-3 mb-2">
+                  <SiDjango className="text-green-400 w-6 h-6" />
+                  <h4 className="font-medium text-green-400">Django</h4>
+                </div>
+                <p className="text-sm text-gray-400 mb-2">Used in:</p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-2 py-1 text-xs rounded-full bg-green-500/20 text-green-300">KwentasKlaras PMIS</span>
+                  <span className="px-2 py-1 text-xs rounded-full bg-green-500/20 text-green-300">E-Learning API</span>
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/10 p-4 rounded-xl border border-blue-500/20">
+                <div className="flex items-center gap-3 mb-2">
+                  <SiGooglecloud className="text-blue-500 w-6 h-6" />
+                  <h4 className="font-medium text-blue-400">GCP & Cloud Run</h4>
+                </div>
+                <p className="text-sm text-gray-400 mb-2">Used in:</p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-2 py-1 text-xs rounded-full bg-blue-500/20 text-blue-300">Microservices</span>
+                  <span className="px-2 py-1 text-xs rounded-full bg-blue-500/20 text-blue-300">Cloud Deployment</span>
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-br from-gray-500/10 to-gray-600/10 p-4 rounded-xl border border-gray-500/20">
+                <div className="flex items-center gap-3 mb-2">
+                  <FaGithub className="text-white w-6 h-6" />
+                  <h4 className="font-medium text-gray-300">Git & CI/CD</h4>
+                </div>
+                <p className="text-sm text-gray-400 mb-2">Used in:</p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-2 py-1 text-xs rounded-full bg-gray-500/20 text-gray-300">Version Control</span>
+                  <span className="px-2 py-1 text-xs rounded-full bg-gray-500/20 text-gray-300">Automated Deployment</span>
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-br from-gray-500/10 to-gray-600/10 p-4 rounded-xl border border-gray-500/20">
+                <div className="flex items-center gap-3 mb-2">
+                  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M23.15 2.587L18.21.21a1.494 1.494 0 0 0-1.705.29l-9.46 8.63-4.12-3.128a.999.999 0 0 0-1.276.057L.327 7.261A1 1 0 0 0 .326 8.74L3.899 12 .326 15.26a1 1 0 0 0 .001 1.479L1.65 17.94a.999.999 0 0 0 1.276.057l4.12-3.128 9.46 8.63a1.492 1.492 0 0 0 1.704.29l4.942-2.377A1.5 1.5 0 0 0 24 20.06V3.939a1.5 1.5 0 0 0-.85-1.352zm-5.146 14.861L10.826 12l7.178-5.448v10.896z" className="text-gray-300" />
+                  </svg>
+                  <h4 className="font-medium text-gray-300">YAML Configuration</h4>
+                </div>
+                <p className="text-sm text-gray-400 mb-2">Used in:</p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-2 py-1 text-xs rounded-full bg-gray-500/20 text-gray-300">Infrastructure as Code</span>
+                  <span className="px-2 py-1 text-xs rounded-full bg-gray-500/20 text-gray-300">CI/CD Pipelines</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  },
+  education: { 
+    icon: <div className="bg-gradient-to-br from-green-400 via-green-500 to-green-600 rounded-2xl p-2 shadow-lg">
+      <FaGraduationCap size={32} className="text-white/90" />
+    </div>,
+    title: "Education",
+    content: (
+      <div className="space-y-6">
+        <h2 className="text-2xl font-semibold text-white/90">Education Journey</h2>
+        <div className="space-y-6">
+          {/* College */}
+          <div className="bg-gradient-to-br from-green-500/10 to-green-600/10 p-6 rounded-xl border border-green-500/20">
+            <div className="flex items-start gap-4">
+              <div className="p-3 bg-green-500/20 rounded-xl">
+                <FaGraduationCap className="text-green-400 w-8 h-8" />
+              </div>
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-xl font-medium text-green-400">Bachelor of Science in Information Technology</h3>
+                  <p className="text-gray-400">Cebu Technological University - Argao Campus</p>
+                  <p className="text-sm text-gray-500">2021 - Present</p>
+                </div>
+                <div className="space-y-2">
+                  <h4 className="text-sm font-medium text-gray-300">Achievements</h4>
+                  <ul className="text-sm text-gray-400 space-y-1 list-disc list-inside">
+                    <li>Dean's Lister</li>
+                    <li>Lead Developer for KwentasKlaras PMIS</li>
+                    <li>Active member of CTU-IT Society</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Senior High School */}
+          <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/10 p-6 rounded-xl border border-blue-500/20">
+            <div className="flex items-start gap-4">
+              <div className="p-3 bg-blue-500/20 rounded-xl">
+                <FaGraduationCap className="text-blue-400 w-8 h-8" />
+              </div>
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-xl font-medium text-blue-400">Senior High School - TVL ICT Strand</h3>
+                  <p className="text-gray-400">Argao National High School</p>
+                  <p className="text-sm text-gray-500">2019 - 2021</p>
+                </div>
+                <div className="space-y-2">
+                  <h4 className="text-sm font-medium text-gray-300">Achievements</h4>
+                  <ul className="text-sm text-gray-400 space-y-1 list-disc list-inside">
+                    <li>Graduated with Honors</li>
+                    <li>ICT Track Excellence Award</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* High School */}
+          <div className="bg-gradient-to-br from-purple-500/10 to-purple-600/10 p-6 rounded-xl border border-purple-500/20">
+            <div className="flex items-start gap-4">
+              <div className="p-3 bg-purple-500/20 rounded-xl">
+                <FaGraduationCap className="text-purple-400 w-8 h-8" />
+              </div>
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-xl font-medium text-purple-400">High School</h3>
+                  <p className="text-gray-400">Saint Michael School of Argao</p>
+                  <p className="text-sm text-gray-500">2014 - 2019</p>
+                </div>
+                <div className="space-y-2">
+                  <h4 className="text-sm font-medium text-gray-300">Activities</h4>
+                  <ul className="text-sm text-gray-400 space-y-1 list-disc list-inside">
+                    <li>Active participation in academic competitions</li>
+                    <li>Member of Student Council</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  },
+  contact: { 
+    icon: <div className="bg-gradient-to-br from-red-400 via-red-500 to-red-600 rounded-2xl p-2 shadow-lg">
+      <FaEnvelope size={32} className="text-white/90" />
+    </div>,
+    title: "Contact",
+    content: (
+      <div className="space-y-6">
+        <h2 className="text-2xl font-semibold text-white/90">Get in Touch</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-4">
+            <div className="bg-gradient-to-br from-red-500/10 to-red-600/10 p-4 rounded-xl border border-red-500/20">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="p-2 bg-red-500/20 rounded-lg">
+                  <FaEnvelope className="text-red-400 w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-medium text-red-400">Email</h3>
+                  <a href="mailto:dalubatanhans@gmail.com" className="text-sm text-gray-400 hover:text-gray-300">
+                    dalubatanhans@gmail.com
+                  </a>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/10 p-4 rounded-xl border border-blue-500/20">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="p-2 bg-blue-500/20 rounded-lg">
+                  <FaLinkedin className="text-blue-400 w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-medium text-blue-400">LinkedIn</h3>
+                  <a href="https://linkedin.com/in/hans-dalubatan" target="_blank" rel="noopener noreferrer" 
+                     className="text-sm text-gray-400 hover:text-gray-300">
+                    /in/hans-dalubatan
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-br from-gray-500/10 to-gray-600/10 p-4 rounded-xl border border-gray-500/20">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="p-2 bg-gray-500/20 rounded-lg">
+                  <FaGithub className="text-gray-400 w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-medium text-gray-400">GitHub</h3>
+                  <a href="https://github.com/HanzArcher" target="_blank" rel="noopener noreferrer" 
+                     className="text-sm text-gray-400 hover:text-gray-300">
+                    /HanzArcher
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-br from-blue-600/10 to-blue-700/10 p-4 rounded-xl border border-blue-600/20">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="p-2 bg-blue-600/20 rounded-lg">
+                  <FaFacebook className="text-blue-500 w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-medium text-blue-500">Facebook</h3>
+                  <a href="https://facebook.com/hans.dalubatan" target="_blank" rel="noopener noreferrer" 
+                     className="text-sm text-gray-400 hover:text-gray-300">
+                    /hans.dalubatan
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <form className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-400 mb-1">Name</label>
+              <input 
+                type="text"
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500/50"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-400 mb-1">Email</label>
+              <input 
+                type="email"
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500/50"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-400 mb-1">Message</label>
+              <textarea 
+                rows={4}
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500/50"
+              ></textarea>
+            </div>
+            <button className="w-full bg-blue-500/80 hover:bg-blue-500/90 text-white py-2 rounded-lg transition-colors">
+              Send Message
+            </button>
+          </form>
+        </div>
+      </div>
+    )
+  }
+};
+
 export default function DesktopUI() {
-  const [selectedSection, setSelectedSection] = useState<string | null>(null);
+  const [selectedSection, setSelectedSection] = useState<SectionKey | null>(null);
   const [time, setTime] = useState<string>("");
   const [expandedProject, setExpandedProject] = useState<string | null>(null);
   const [iconPositions, setIconPositions] = useState<{ [key: string]: Position }>({});
@@ -59,6 +756,7 @@ export default function DesktopUI() {
   const [windowDimensions, setWindowDimensions] = useState({ width: 0, height: 0 });
   const [showNotification, setShowNotification] = useState(false);
   const [showFileManager, setShowFileManager] = useState(false);
+  const [currentFolder, setCurrentFolder] = useState<'internship' | 'featured' | null>(null);
 
   useEffect(() => {
     const updateTime = () => {
@@ -106,8 +804,8 @@ export default function DesktopUI() {
       const viewportWidth = windowDimensions.width - iconWidth;
       const minTop = 40;
 
-      const newTop = prev[index].top + info.offset.y;
-      const newLeft = prev[index].left + info.offset.x;
+      const newTop = prev[index]?.top || desktopIcons[index].position.top;
+      const newLeft = prev[index]?.left || desktopIcons[index].position.left;
 
       if (newTop < minTop || newTop > viewportHeight || newLeft < 0 || newLeft > viewportWidth) {
         return {
@@ -135,445 +833,11 @@ export default function DesktopUI() {
 
   const handleConfirmDownload = () => {
     setShowNotification(false);
-    window.open('/resume.pdf', '_blank'); 
+    window.open('/Hans Archer Dalubatan.docx', '_blank'); 
   };
 
   const handleCancelDownload = () => {
     setShowNotification(false);
-  };
-
-  const sections = {
-    about: { 
-      icon: <div className="bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-2xl p-2 shadow-lg">
-        <FaUser size={32} className="text-white/90" />
-      </div>,
-      title: "About Me",
-      content: (
-        <div className="flex flex-col gap-6 p-4">
-          <div className="flex flex-col md:flex-row gap-8">
-            <div className="w-48 h-48 md:w-64 md:h-64 mx-auto md:mx-0 rounded-xl overflow-hidden shadow-lg">
-              <Image
-                src="/me.jpg"
-                width={256}
-                height={256}
-                alt="Profile"
-                className="object-cover"
-              />
-            </div>
-            <div className="space-y-4 flex-1 text-center md:text-left">
-              <div>
-                <h2 className="text-2xl font-semibold">Hans Dalubatan</h2>
-                <p className="text-gray-300">DevOps & Web Developer Intern at zaneCoder</p>
-              </div>
-              <p className="text-gray-200 leading-relaxed">
-                I'm passionate about building innovative web solutions and automating development workflows. 
-                Currently pursuing Bachelor of Science in Information Technology at Cebu Technological University, 
-                where we've successfully deployed KwentasKlaras Digital PMIS at LGU Boljoon, Cebu.
-              </p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-4">
-              <h3 className="font-medium text-gray-300 text-lg border-b border-white/10 pb-2">Recent Projects</h3>
-              <div className="grid gap-4">
-                <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/10 p-4 rounded-xl border border-blue-500/20 hover:border-blue-500/40 transition-colors">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="p-2 bg-blue-500/20 rounded-lg">
-                      <FaProjectDiagram className="text-blue-400 w-5 h-5" />
-                    </div>
-                    <h4 className="text-blue-400 font-medium">E-Learning Platform</h4>
-                  </div>
-                  <p className="text-sm text-gray-400">Real-time collaboration system for interactive learning</p>
-                </div>
-                
-                <div className="bg-gradient-to-br from-green-500/10 to-green-600/10 p-4 rounded-xl border border-green-500/20 hover:border-green-500/40 transition-colors">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="p-2 bg-green-500/20 rounded-lg">
-                      <FaUser className="text-green-400 w-5 h-5" />
-                    </div>
-                    <h4 className="text-green-400 font-medium">Biometrics Integration</h4>
-                  </div>
-                  <p className="text-sm text-gray-400">Secure authentication system with biometric verification</p>
-                </div>
-                
-                <div className="bg-gradient-to-br from-purple-500/10 to-purple-600/10 p-4 rounded-xl border border-purple-500/20 hover:border-purple-500/40 transition-colors">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="p-2 bg-purple-500/20 rounded-lg">
-                      <FaTools className="text-purple-400 w-5 h-5" />
-                    </div>
-                    <h4 className="text-purple-400 font-medium">VS Code Extensions</h4>
-                  </div>
-                  <p className="text-sm text-gray-400">Real-time collaboration & Django automation tools</p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="space-y-4">
-              <h3 className="font-medium text-gray-300 text-lg border-b border-white/10 pb-2">Core Technologies</h3>
-              <div className="grid gap-4">
-                <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 p-4 rounded-xl border border-white/10 hover:border-white/20 transition-colors">
-                  <div className="flex items-center gap-3">
-                    <SiNextdotjs className="text-white w-6 h-6" />
-                    <span className="font-medium">Next.js</span>
-                  </div>
-                </div>
-                
-                <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 p-4 rounded-xl border border-white/10 hover:border-white/20 transition-colors">
-                  <div className="flex items-center gap-3">
-                    <FaReact className="text-blue-400 w-6 h-6" />
-                    <span className="font-medium">React</span>
-                  </div>
-                </div>
-                
-                <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 p-4 rounded-xl border border-white/10 hover:border-white/20 transition-colors">
-                  <div className="flex items-center gap-3">
-                    <SiTypescript className="text-blue-500 w-6 h-6" />
-                    <span className="font-medium">TypeScript</span>
-                  </div>
-                </div>
-
-                <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 p-4 rounded-xl border border-white/10 hover:border-white/20 transition-colors">
-                  <div className="flex items-center gap-3">
-                    <SiDjango className="text-green-500 w-6 h-6" />
-                    <span className="font-medium">Django</span>
-                  </div>
-                </div>
-
-                <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 p-4 rounded-xl border border-white/10 hover:border-white/20 transition-colors">
-                  <div className="flex items-center gap-3">
-                    <SiTailwindcss className="text-cyan-400 w-6 h-6" />
-                    <span className="font-medium">Tailwind CSS</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )
-    },
-    projects: { 
-      icon: <div className="bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 rounded-2xl p-2 shadow-lg">
-        <FaProjectDiagram size={32} className="text-white/90" />
-      </div>,
-      title: "Projects",
-      content: (
-        <div className="space-y-6">
-          <h2 className="text-2xl font-semibold text-white/90">Featured Projects</h2>
-          <div className="grid gap-4">
-            <div className="bg-gray-800/50 rounded-xl border border-white/10 overflow-hidden">
-              <div className="flex items-center justify-between p-4 cursor-pointer hover:bg-white/5 transition-colors">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-blue-500/20 rounded-lg">
-                    <FaReact className="text-blue-400 w-5 h-5" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium text-white/90">Resume Builder</h3>
-                    <p className="text-sm text-gray-400">Modern resume creation platform</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <a 
-                    href="https://github.com/yourusername/resume-builder" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-colors"
-                  >
-                    <FaGithub className="w-5 h-5 text-white/70" />
-                  </a>
-                  <button className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-colors">
-                    <FaChevronDown className="w-4 h-4 text-white/70" />
-                  </button>
-                </div>
-              </div>
-              <div className="p-4 border-t border-white/10 bg-white/5">
-                <div className="space-y-3">
-                  <p className="text-sm text-gray-300 leading-relaxed">
-                    A modern resume builder with real-time preview, custom templates, and PDF export functionality.
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="px-2 py-1 text-xs rounded-full bg-blue-500/20 text-blue-300">React</span>
-                    <span className="px-2 py-1 text-xs rounded-full bg-blue-500/20 text-blue-300">TypeScript</span>
-                    <span className="px-2 py-1 text-xs rounded-full bg-purple-500/20 text-purple-300">Vite</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Add more project cards with the same structure */}
-          </div>
-        </div>
-      )
-    },
-    experience: { 
-      icon: <div className="bg-gradient-to-br from-orange-400 via-orange-500 to-orange-600 rounded-2xl p-2 shadow-lg">
-        <FaBuilding size={32} className="text-white/90" />
-      </div>,
-      title: "Experience",
-      content: (
-        <div className="space-y-6">
-          <h2 className="text-2xl font-semibold text-white/90">Professional Experience</h2>
-          <div className="grid gap-4">
-            <div className="bg-gradient-to-br from-orange-500/10 to-orange-600/10 p-4 rounded-xl border border-orange-500/20">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="p-2 bg-orange-500/20 rounded-lg">
-                  <FaBuilding className="text-orange-400 w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-medium text-orange-400">Web Developer Intern</h3>
-                  <p className="text-sm text-gray-400">zaneCoder • 2025 - Present</p>
-                </div>
-              </div>
-              <div className="space-y-3">
-                <p className="text-sm text-gray-300 leading-relaxed">
-                  Working on full-stack web development projects using modern technologies and best practices.
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-2 py-1 text-xs rounded-full bg-blue-500/20 text-blue-300">Next.js</span>
-                  <span className="px-2 py-1 text-xs rounded-full bg-green-500/20 text-green-300">Laravel</span>
-                  <span className="px-2 py-1 text-xs rounded-full bg-purple-500/20 text-purple-300">Typescript</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-gradient-to-br from-yellow-500/10 to-yellow-600/10 p-4 rounded-xl border border-yellow-500/20">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="p-2 bg-yellow-500/20 rounded-lg">
-                  <FaLaptopCode className="text-yellow-400 w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-medium text-yellow-400">2024 POPCEN-CBMS Enumerator</h3>
-                  <p className="text-sm text-gray-400">Philippine Statistics Authority • 2024</p>
-                </div>
-              </div>
-              <div className="space-y-3">
-                <p className="text-sm text-gray-300 leading-relaxed">
-                  Developing custom web solutions and applications for various clients, focusing on performance and user experience.
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-2 py-1 text-xs rounded-full bg-blue-500/20 text-blue-300">React</span>
-                  <span className="px-2 py-1 text-xs rounded-full bg-cyan-500/20 text-cyan-300">Tailwind</span>
-                  <span className="px-2 py-1 text-xs rounded-full bg-orange-500/20 text-orange-300">Firebase</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-gradient-to-br from-yellow-500/10 to-yellow-600/10 p-4 rounded-xl border border-yellow-500/20">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="p-2 bg-yellow-500/20 rounded-lg">
-                  <FaLaptopCode className="text-yellow-400 w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-medium text-yellow-400">Computer System Servicing Intern</h3>
-                  <p className="text-sm text-gray-400">FJR IT Solutions • 2019</p>
-                </div>
-              </div>
-              <div className="space-y-3">
-                <p className="text-sm text-gray-300 leading-relaxed">
-                  Developing custom web solutions and applications for various clients, focusing on performance and user experience.
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-2 py-1 text-xs rounded-full bg-blue-500/20 text-blue-300">React</span>
-                  <span className="px-2 py-1 text-xs rounded-full bg-cyan-500/20 text-cyan-300">Tailwind</span>
-                  <span className="px-2 py-1 text-xs rounded-full bg-orange-500/20 text-orange-300">Firebase</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )
-    },
-    technologies: { 
-      icon: <div className="bg-gradient-to-br from-indigo-400 via-indigo-500 to-indigo-600 rounded-2xl p-2 shadow-lg">
-        <FaTools size={32} className="text-white/90" />
-      </div>,
-      title: "Technologies",
-      content: (
-        <div className="space-y-6">
-          <h2 className="text-2xl font-semibold text-white/90">Tech Stack & Projects</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-4">
-              <h3 className="font-medium text-gray-300 text-lg border-b border-white/10 pb-2">Frontend</h3>
-              <div className="grid gap-4">
-                <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/10 p-4 rounded-xl border border-blue-500/20">
-                  <div className="flex items-center gap-3 mb-2">
-                    <FaReact className="text-blue-400 w-6 h-6" />
-                    <h4 className="font-medium text-blue-400">React & Next.js</h4>
-                  </div>
-                  <p className="text-sm text-gray-400 mb-2">Used in:</p>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="px-2 py-1 text-xs rounded-full bg-blue-500/20 text-blue-300">Resume Builder</span>
-                    <span className="px-2 py-1 text-xs rounded-full bg-blue-500/20 text-blue-300">E-Learning Platform</span>
-                  </div>
-                </div>
-                
-                <div className="bg-gradient-to-br from-cyan-500/10 to-cyan-600/10 p-4 rounded-xl border border-cyan-500/20">
-                  <div className="flex items-center gap-3 mb-2">
-                    <SiTailwindcss className="text-cyan-400 w-6 h-6" />
-                    <h4 className="font-medium text-cyan-400">Tailwind CSS</h4>
-                  </div>
-                  <p className="text-sm text-gray-400 mb-2">Used in:</p>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="px-2 py-1 text-xs rounded-full bg-cyan-500/20 text-cyan-300">Portfolio</span>
-                    <span className="px-2 py-1 text-xs rounded-full bg-cyan-500/20 text-cyan-300">Dashboard UI</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="space-y-4">
-              <h3 className="font-medium text-gray-300 text-lg border-b border-white/10 pb-2">Backend</h3>
-              <div className="grid gap-4">
-                <div className="bg-gradient-to-br from-green-500/10 to-green-600/10 p-4 rounded-xl border border-green-500/20">
-                  <div className="flex items-center gap-3 mb-2">
-                    <SiDjango className="text-green-400 w-6 h-6" />
-                    <h4 className="font-medium text-green-400">Django</h4>
-                  </div>
-                  <p className="text-sm text-gray-400 mb-2">Used in:</p>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="px-2 py-1 text-xs rounded-full bg-green-500/20 text-green-300">KwentasKlaras PMIS</span>
-                    <span className="px-2 py-1 text-xs rounded-full bg-green-500/20 text-green-300">E-Learning API</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )
-    },
-    education: { 
-      icon: <div className="bg-gradient-to-br from-green-400 via-green-500 to-green-600 rounded-2xl p-2 shadow-lg">
-        <FaGraduationCap size={32} className="text-white/90" />
-      </div>,
-      title: "Education",
-      content: (
-        <div className="space-y-6">
-          <h2 className="text-2xl font-semibold text-white/90">Education Journey</h2>
-          <div className="bg-gradient-to-br from-green-500/10 to-green-600/10 p-6 rounded-xl border border-green-500/20">
-            <div className="flex items-start gap-4">
-              <div className="p-3 bg-green-500/20 rounded-xl">
-                <FaGraduationCap className="text-green-400 w-8 h-8" />
-              </div>
-              <div className="space-y-4">
-                <div>
-                  <h3 className="text-xl font-medium text-green-400">Bachelor of Science in Information Technology</h3>
-                  <p className="text-gray-400">Cebu Technological University - Argao Campus</p>
-                  <p className="text-sm text-gray-500">2021 - Present</p>
-                </div>
-                <div className="space-y-2">
-                  <h4 className="text-sm font-medium text-gray-300">Achievements</h4>
-                  <ul className="text-sm text-gray-400 space-y-1 list-disc list-inside">
-                    <li>Dean's Lister</li>
-                    <li>Lead Developer for KwentasKlaras PMIS</li>
-                    <li>Active member of CTU-IT Society</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )
-    },
-    contact: { 
-      icon: <div className="bg-gradient-to-br from-red-400 via-red-500 to-red-600 rounded-2xl p-2 shadow-lg">
-        <FaEnvelope size={32} className="text-white/90" />
-      </div>,
-      title: "Contact",
-      content: (
-        <div className="space-y-6">
-          <h2 className="text-2xl font-semibold text-white/90">Get in Touch</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-4">
-              <div className="bg-gradient-to-br from-red-500/10 to-red-600/10 p-4 rounded-xl border border-red-500/20">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="p-2 bg-red-500/20 rounded-lg">
-                    <FaEnvelope className="text-red-400 w-5 h-5" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium text-red-400">Email</h3>
-                    <a href="mailto:dalubatanhans@gmail.com" className="text-sm text-gray-400 hover:text-gray-300">
-                      dalubatanhans@gmail.com
-                    </a>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/10 p-4 rounded-xl border border-blue-500/20">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="p-2 bg-blue-500/20 rounded-lg">
-                    <FaLinkedin className="text-blue-400 w-5 h-5" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium text-blue-400">LinkedIn</h3>
-                    <a href="https://linkedin.com/in/hans-dalubatan" target="_blank" rel="noopener noreferrer" 
-                       className="text-sm text-gray-400 hover:text-gray-300">
-                      /in/hans-dalubatan
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-gradient-to-br from-gray-500/10 to-gray-600/10 p-4 rounded-xl border border-gray-500/20">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="p-2 bg-gray-500/20 rounded-lg">
-                    <FaGithub className="text-gray-400 w-5 h-5" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium text-gray-400">GitHub</h3>
-                    <a href="https://github.com/HanzArcher" target="_blank" rel="noopener noreferrer" 
-                       className="text-sm text-gray-400 hover:text-gray-300">
-                      /HanzArcher
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-gradient-to-br from-blue-600/10 to-blue-700/10 p-4 rounded-xl border border-blue-600/20">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="p-2 bg-blue-600/20 rounded-lg">
-                    <FaFacebook className="text-blue-500 w-5 h-5" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium text-blue-500">Facebook</h3>
-                    <a href="https://facebook.com/hans.dalubatan" target="_blank" rel="noopener noreferrer" 
-                       className="text-sm text-gray-400 hover:text-gray-300">
-                      /hans.dalubatan
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <form className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-400 mb-1">Name</label>
-                <input 
-                  type="text"
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500/50"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-400 mb-1">Email</label>
-                <input 
-                  type="email"
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500/50"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-400 mb-1">Message</label>
-                <textarea 
-                  rows={4}
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500/50"
-                ></textarea>
-              </div>
-              <button className="w-full bg-blue-500/80 hover:bg-blue-500/90 text-white py-2 rounded-lg transition-colors">
-                Send Message
-              </button>
-            </form>
-          </div>
-        </div>
-      )
-    }
   };
 
   const MenuBar = () => (
@@ -624,10 +888,14 @@ export default function DesktopUI() {
   };
 
   const handleIconClick = (title: string) => {
-    if (title === "zaneCoderinternShip") {
+    if (title === "zaneCoderInternship") {
       setShowFileManager(true);
+      setCurrentFolder('internship');
     } else if (title === "downloadMyResume.bat") {
       handleDownloadClick();
+    } else if (title === "featuredProjects") {
+      setShowFileManager(true);
+      setCurrentFolder('featured');
     }
   };
 
@@ -703,7 +971,7 @@ export default function DesktopUI() {
             >
               <div 
                 className="w-10 h-10 md:w-14 md:h-14 flex items-center justify-center cursor-pointer dock-hover"
-                onClick={() => setSelectedSection(key)}
+                onClick={() => setSelectedSection(key as SectionKey)}
               >
                 {icon}
               </div>
@@ -743,7 +1011,7 @@ export default function DesktopUI() {
                 {Object.entries(sections).map(([key, { title, icon }]) => (
                   <div
                     key={key}
-                    onClick={() => setSelectedSection(key)}
+                    onClick={() => setSelectedSection(key as SectionKey)}
                     className={`flex items-center gap-2 p-2 rounded-lg cursor-pointer transition-colors ${
                       selectedSection === key ? 'bg-white/10' : 'hover:bg-white/5'
                     }`}
@@ -771,7 +1039,10 @@ export default function DesktopUI() {
         />
       )}
 
-      {showFileManager && <MockFileManager onClose={() => setShowFileManager(false)} />}
+      {showFileManager && <MockFileManager onClose={() => {
+        setShowFileManager(false);
+        setCurrentFolder(null);
+      }} folderType={currentFolder!} />}
     </div>
   );
 }
